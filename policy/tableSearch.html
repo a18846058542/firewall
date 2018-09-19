@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/index.css"/>
+</head>
+<body>
+<div id="myVue">
+    <input id="searchInput" v-model="search" class="policy-search-text" type="text" placeholder="请输入搜索内容..."/>
+    <div class="tableRef" id="tableRef" ref="tableRef">
+        <el-table
+                :data="tables"
+                style="width: 100%">
+            <el-table-column
+                    label="ID">
+                <template slot-scope="scope">
+                    <span class="col-cont"></span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="源地址">
+                <template slot-scope="scope">
+                    <span class="col-cont" v-html="showDate(scope.row.requirement_src_ip.join('<br/>'))" ></span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="目的地址">
+                <template slot-scope="scope">
+                    <span class="col-cont" v-html="showDate(scope.row.requirement_dst_ip.join('<br/>'))" ></span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="协议">
+                <template slot-scope="scope">
+                    <span class="col-cont" v-html="showDate(scope.row.requirement_protocol)" ></span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="端口">
+                <template slot-scope="scope">
+                    <span v-for="i in (scope.row.requirement_dst_port)">
+                        <span class="col-cont" v-if="i.dst_port_range.min==i.dst_port_range.max">{{i.protocol}}-{{i.dst_port_range.max}}; </span>
+                        <span class="col-cont" v-else>{{i.protocol}}-{{i.dst_port_range.min}}~{{i.dst_port_range.max}}; </span>
+                    </span>
+
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="时间段">
+                <template slot-scope="scope">
+                    <span class="col-cont" v-html="showDate(scope.row.start_time)+'~'+showDate(scope.row.end_time)" ></span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="长连接">
+                <template slot-scope="scope">
+                    <span class="col-cont" v-html="showDate(scope.row.requirement_timeout)" ></span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="动作">
+                <template slot-scope="scope">
+                    <span class="col-cont" v-html="showDate(scope.row.requirement_action)" ></span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="描述">
+                <template slot-scope="scope">
+                    <span class="col-cont" ></span>
+                </template>
+            </el-table-column>
+        </el-table>
+    </div>
+    <!--<el-row>
+        <el-col>
+            <el-input v-model="search" placeholder="请输入搜索内容..."></el-input>
+        </el-col>
+    </el-row>-->
+
+</div>
+<script src="js/jquery-1.10.2.js"></script>
+<script src="js/vue.js"></script>
+<script src="js/index1.js"></script>
+<script src="js/vue-resource.js"></script>
+<script src="js/po.js"></script>
+<script type="text/javascript">
+    var i=0;
+    new Vue({
+        el: '#myVue',
+        data: {
+            search: '',
+            tableData: []
+        },
+        created:function(){
+            this.getData()
+        },
+        computed: {
+            tables: function () {
+                const search = this.search;
+                if (search) {
+                    return this.tableData.filter(dataNews => {
+                        return Object.keys(dataNews).some(key => {
+                            return String(dataNews[key]).toLowerCase().indexOf(search) > -1
+                        })
+                    })
+                }
+                return this.tableData
+            }
+        },
+        methods: {
+            getData:function(){
+                var that=this;
+                that.$http({
+                    method:'post',
+                    url:'json/getVPCRules.json'
+                }).then(function(response){
+                    this.tableData=response.body.Output.firewall_rules;
+                    for(var i=0;i<this.tableData.length;i++){
+                        var ports = this.tableData[i].requirement_dst_port;
+                        var strPorts = "";
+                        for(var k=0;k<ports.length;k++) {
+                            var port = ports[k];
+                            if(port.dst_port_range.min==port.dst_port_range.max){
+                                strPorts+=port.protocol+"-"+port.dst_port_range.max+"; ";
+                            }else{
+                                strPorts+=port.protocol+"-"+port.dst_port_range.min+"~"+port.dst_port_range.max+"; ";
+                            }
+                        }
+                        strPorts=strPorts.substring(0,strPorts.length-2);
+                    }
+                },function(error){
+                    console.log(error);
+                })
+            },
+            showDate (val) {
+                if (val.indexOf(this.search) !== -1 && this.search !== '') {
+                    return val.replace(this.search, '<font color="#409EFF">' + this.search + '</font>')
+                } else {
+                    return val
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

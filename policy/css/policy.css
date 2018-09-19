@@ -1,0 +1,137 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+ul,li{
+    list-style: none;
+}
+td{
+    text-align: center;
+}
+.pr{
+    position: relative;
+}
+.pa{
+    position: absolute;
+}
+.ptop{
+    padding-top: 7px;
+}
+.pt{
+    padding-top: 7px;
+    padding-left: 0;
+}
+.fl{
+    float: left;
+}
+.fr{
+    float: right;
+}
+.clearfix:after{
+    content: "";
+    height: 0;
+    display: block;
+    clear: both;
+    visibility: hidden;
+}
+.main{
+    padding: 5px;
+}
+.policyInfo{
+    height: auto;
+    border: 1px solid #bcbcc2;
+}
+.policy-header{
+    padding: 0 10px;
+    overflow: hidden;
+    zoom: 1;
+    color: #464646;
+    font: bold 13px arial,tahoma,helvetica,'ËÎÌו';
+    line-height: 31px;
+    height: 31px;
+    background: transparent url(../images/panel.gif) repeat-x top;
+}
+.policy-operation{
+    padding: 5px;
+}
+.policy-ope-nav{
+    margin-top: 1px;
+    height: 25px;
+    line-height: 25px;
+}
+.policy-ope-nav li{
+    margin-right: 5px;
+    cursor: pointer;
+}
+.policy-ope-nav li:last-child{
+    margin-right: 0;
+}
+.policy-nav-text{
+    margin: 0 2px;
+    background-position: 0 2px;
+    background-repeat: no-repeat;
+    padding-left: 18px;
+    padding-top: 3px;
+    padding-bottom: 2px;
+    padding-right: 0;
+    font: 12px arial,tahoma,helvetica,'ËÎÌו';
+}
+.policy-add-img{
+    background-image: url(../images/add.gif) !important;
+}
+.policy-delete-img{
+    background-image: url(../images/delete.gif) !important;
+}
+.policy-move-img{
+    background-image: url(../images/move.gif) !important;
+}
+.policy-export-img{
+    background-image: url(../images/export.gif) !important;
+}
+.policy-refresh-img{
+    background-image: url(../images/refresh.gif) !important;
+}
+
+.policy-search{
+    margin-top: 1px;
+}
+.policy-search-text{
+    padding: 2px 0;
+}
+.policy-search-btn{
+    background-position: 0 2px;
+    background-repeat: no-repeat;
+    padding-left: 18px;
+    padding-top: 3px;
+    padding-bottom: 2px;
+    padding-right: 0;
+    font: 12px arial,tahoma,helvetica,'ËÎÌו';
+    cursor: pointer;
+}
+.policy-search-btn-img{
+    background-image: url(../images/search.gif) !important;
+}
+.policy-table{
+    padding: 0 5px;
+}
+#policy-table tr td{
+    vertical-align: middle;
+}
+#policy-table thead tr th{
+    text-align: center;
+}
+#thead > th{
+    text-align: center;
+    background: #fff;
+}
+
+.SAipAddressInfo,.DAipAddressInfo,.portInfo,.longInfo{
+    position: absolute;
+    top: 35px;
+    left: 150px;
+    color: #EE180D;
+    font-size: 13px;
+}
+input[name='action']{
+    margin-right: 5px;
+}

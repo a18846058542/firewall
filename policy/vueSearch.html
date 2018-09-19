@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/layui.css"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <!--<link rel="stylesheet" href="css/bootstrap-switch.css"/>-->
+    <link rel="stylesheet" href="../ui/global/layer/skin/moon/laydate.css"/>
+    <link rel="stylesheet" href="css/laydate.css"/>
+    <link rel="stylesheet" href="css/policy.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+    <style type="text/css">
+        *{margin:0;padding:0;list-style:none;}
+
+        html{background-color:#E3E3E3; font-size:14px; color:#000; font-family:'微软雅黑'}
+
+        h2{line-height:30px; font-size:20px;}
+
+        a,a:hover{ text-decoration:none;}
+
+        pre{font-family:'微软雅黑'}
+
+        .box{width:970px; padding:10px 20px; background-color:#fff; margin:10px auto;}
+
+        .box a{padding-right:20px;}
+
+        .demo1,.demo2,.demo3,.demo4,.demo5,.demo6{margin:25px 0;}
+
+        h3{margin:10px 0;}
+
+        .layinput{height: 22px;line-height: 22px;width: 150px;margin: 0;}
+    </style>
+</head>
+<body>
+<div class="main">
+    <div class="policyInfo">
+        <div class="policy-header">
+            <span class="policy-header-text">安全策略列表</span>
+        </div>
+        <div class="policy-operation clearfix">
+            <ul class="policy-ope-nav fl clearfix">
+                <li class="fl">
+                    <span id="addPolicy" title="新建" class="policy-add policy-nav-text policy-add-img" data-toggle="modal" data-target="#policyForm">新建</span>
+                </li>
+                <li class="fl">
+                    <span id="deletePolicy" title="删除" class="policy-delete policy-nav-text policy-delete-img">删除</span>
+                </li>
+                <!--<li class="fl">
+                    <span title="移动" class="policy-move policy-nav-text policy-move-img">移动</span>
+                </li>
+                <li class="fl">
+                    <span title="导出" class="policy-export policy-nav-text policy-export-img">导出</span>
+                </li>-->
+                <li class="fl">
+                    <span title="刷新" class="policy-refresh policy-nav-text policy-refresh-img">刷新</span>
+                </li>
+            </ul>
+
+            <div class="policy-search fr">
+                <input id="searchInput" class="policy-search-text" type="text" placeholder="请输入搜索内容..."/>
+                <!--<span id="searchBtn" class="policy-search-btn policy-search-btn-img">查询</span>-->
+            </div>
+        </div>
+        <div id="policyTable" class="policy-table clearfix">
+            <table id="policy-table" class="table table-bordered table-hover">
+                <tr id="thead">
+                    <th><input id="allChange" type="checkbox"/></th>
+                    <th>ID</th>
+                    <th>源地址</th>
+                    <th>目的地址</th>
+                    <th>协议</th>
+                    <th>端口</th>
+                    <th>时间段</th>
+                    <th>长连接</th>
+                    <th>动作</th>
+                    <th>描述</th>
+                </tr>
+            </table>
+            <div id="pagediv" style="float:right;margin-right:8px;line-height: 27px;">
+                <span id="btn0"></span>
+                <select id="pageSize">
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                </select>
+                <span> 条 </span>
+                <span id="allNum"></span>
+                <a  href="###" id="btn1">首页</a>
+                <a  href="###" id="btn2">上一页</a>
+                <a  href="###" id="btn3">下一页</a>
+                <a  href="###" id="btn4">尾页</a>
+                <span>转到 </span>
+                <input id="changePage" type="text" size="1" maxlength="4"/>
+                <span>页 </span>
+                <a  href="###" id="btn5">跳转</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/jquery-1.10.2.js"></script>
+<!--<script src="js/jquery.jsonp.js"></script>-->
+<script src="js/bootstrap.min.js"></script>
+<!--<script src="js/bootstrap-switch.js"></script>-->
+<script src="js/vue.js"></script>
+<script src="js/vue-resource.js"></script>
+<script src="js/po.js"></script>
+</body>
+</html>
+
+<div id="policyForm" class="modal fade" role="dialog" aria-hidden="true" tabindex="-1" style="z-index:2000;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title">新增安全策略</h4>
+            </div>
+            <div class="modal-body">
+                <form action="#" class="form-horizontal">
+                    <div class="form-group pr">
+                        <label class="control-label col-md-3">源地址:</label>
+                        <input id="SA" class="col-md-8 layui-input" type="text" name="SA" value="" placeholder="请输入IP地址"/>
+                        <p class="SAipAddressInfo">IP地址输入错误</p>
+                    </div>
+                    <div class="form-group pr">
+                        <label class="control-label col-md-3">目的地址:</label>
+                        <input id="DA" class="col-md-8 layui-input" type="text" name="DA" value="" placeholder="请输入IP地址"/>
+                        <p class="DAipAddressInfo">IP地址输入错误</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">协议:</label>
+                        <select id="agreement" class="col-md-8 layui-input">
+                            <option value="">请选择...</option>
+                            <option value="tcp">tcp</option>
+                            <option value="udp">udp</option>
+                        </select>
+                    </div>
+                    <div class="form-group pr">
+                        <label class="control-label col-md-3">端口:</label>
+                        <input id="port" class="col-md-8 layui-input" type="text" name="port" value=""/>
+                        <p class="portInfo">端口不在可输入范围之内或输入错误</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">开始时间:</label>
+                        <input id="dateTimeStart" class="col-md-8 layui-input" type="text" placeholder="请选择开始时间" onclick="laydate({istime: true,format:'YYYY-MM-DD hh:mm:00'})" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">结束时间:</label>
+                        <input id="dateTimeEnd" class="col-md-8 layui-input datainp" type="text" placeholder="请选择结束时间" readonly/>
+                    </div>
+                    <div class="form-group pr">
+                        <label class="control-label col-md-3">长连接:</label>
+                        <input id="long-lived" class="col-md-8 layui-input" type="text" name="long-lived" value=""/>
+                        <p class="longInfo">长连接超出输入范围或输入错误</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">插入位置:</label>
+                        <input id="IDnum" class="col-md-8 layui-input" type="text" placeholder="请输入目标ID" name="long-lived" value=""/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">动作:</label>
+                        <span class="col-md-3 pt">
+                            <input type="radio" id="action1" name="action" value="permit"/><span>允许</span>
+                        </span>
+                        <span class="col-md-3 pt">
+                            <input type="radio" id="action2" name="action" value="deny"/><span>禁止</span>
+                        </span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button id="subPolicy" type="button" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/laydate.js"></script>
+<script>
+    !function(){
+        laydate.skin('molv');//切换皮肤，请查看skins下面皮肤库
+    }();
+    laydate({
+        elem:'#dateTimeEnd',
+        format:'YYYY-MM-DD hh:mm:00',
+        istime: true
+    });
+    $(function(){
+        $(".policy-refresh").click(function(){
+            location.reload();
+        });
+    });
+</script>
+<script src="js/supershopui.common.js"></script>
+<script src="js/policy.js"></script>
+<script src="js/exp.js"></script>
